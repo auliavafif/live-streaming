@@ -1,9 +1,7 @@
 import React from "react"
-import Layout from "../components/Layout"
 import { Router } from "@reach/router"
-import { Link } from "gatsby"
 import { login, logout, isAuthenticated, getProfile, getOpentokToken } from "../utils/auth"
-import Room from '../components/room'
+import Room from '../components/Room'
 import '../styles/layout.scss'
 
 
