@@ -193,5 +193,5 @@ class Room extends React.Component {
     }
 }
 
-export default preloadScript(Room);
+export default Room;
 

@@ -34,6 +34,10 @@ exports.onCreatePage = async ({ page, actions }) => {
               test: /auth0-js/,
               use: loaders.null(),
             },
+            {
+                test: /opentok-react/,
+                use: loaders.null(),
+            }
           ],
         },
       })
