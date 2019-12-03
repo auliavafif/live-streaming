@@ -1,0 +1,54 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.container{
+  &--main{
+    margin-top:71px;
+  }
+}
+
+.ot-session > div {
+  flex: 1 1 0px;
+  height: 100%;
+  display: flex;
+}
+
+.ot-session > div > div{
+  height: 100%;
+  flex-basis: 100%;
+}
+
+.ot-session > div > div > div{
+  height: 100%;
+}
+
+
+.ot-publisher > div, .ot-subscriber > div {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.OT_publisher, .OT_subscriber{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.bg-controller{
+  background: rgba(0,0,0,0.6);
+  opacity:0.6;
+}
+
+.bg-controller:hover{
+  opacity:1;
+}

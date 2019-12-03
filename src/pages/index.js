@@ -1,21 +1,21 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import Layout from "../components/layout"
+import Layout from "../components/Layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
 const IndexPage = () => (
-  <Layout>
+  <>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
+    <div className="h-screen flex items-center justify-center">
+      <div className="text-center">
+        <img className="inline-block" src="/img/logo.png" alt="logo"/>
+        <div className="text-lg mt-4 mb-6">Welcome to my live streaming room.<br /> I built this live streaming room using GatsbyJs, Netlify, Opentok, Atlas, and Auth0. <br /> Please log in using credential that I gave to you. 😄</div>
+        <Link to="/live" className="p-4 bg-primary hover:bg-primary-darken text-white rounded">Go to Room</Link>
+      </div>
     </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
+  </>
 )
 
 export default IndexPage
