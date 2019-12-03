@@ -1,5 +1,5 @@
 import React from "react"
-import { OTSession, OTStreams, preloadScript } from 'opentok-r
+import { OTSession, OTStreams, preloadScript } from 'opentok-react'
 import Publisher from '../components/Publisher';
 import Subscriber from '../components/Subscriber';
 import axios from 'axios';
