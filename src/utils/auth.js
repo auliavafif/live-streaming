@@ -7,7 +7,7 @@ const auth = isBrowser
     ? new auth0.WebAuth({
         domain: process.env.GATSBY_AUTH0_DOMAIN,
         clientID: process.env.GATSBY_AUTH0_CLIENTID,
-        redirectUri: process.env.GATSBY_AUTH0_CALLBACK,
+        redirectUri: process.env.GATSBY_AUTH0_URL+'/callback',
         responseType: "token id_token",
         scope: "openid profile email",
     })
@@ -76,7 +76,7 @@ export const silentAuth = callback => {
   export const logout = () => {
     localStorage.setItem("isLoggedIn", false)
     auth.logout({
-        returnTo: 'http://localhost:8000'
+        returnTo: process.env.GATSBY_AUTH0_URL
         })
   }
 
