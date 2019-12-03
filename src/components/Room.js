@@ -1,6 +1,5 @@
 import React from "react"
-import { OTSession, OTStreams, preloadScript } from 'opentok-react';
-import ConnectionStatus from '../components/connectionStatus';
+import { OTSession, OTStreams, preloadScript } from 'opentok-r
 import Publisher from '../components/Publisher';
 import Subscriber from '../components/Subscriber';
 import axios from 'axios';
