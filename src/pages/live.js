@@ -5,8 +5,6 @@ import Room from '../components/Room'
 import '../styles/layout.scss'
 
 
-
-
 class Live extends React.Component{
     constructor(props){
         super(props);
@@ -37,7 +35,7 @@ class Live extends React.Component{
                 </a>
                 </nav> */}
                 <Router>
-                    <Room path="/live" apiKey={process.env.OPENTOK_KEY} sessionId={process.env.OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
+                    <Room path="/live" apiKey={process.env.GATSBY_OPENTOK_KEY} sessionId={process.env.GATSBY_OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
                             logout()
                             e.preventDefault()
                         }}/>
