@@ -2,7 +2,7 @@ import React from "react"
 import { handleAuthentication } from "../utils/auth"
 
 const Callback = () => {
-  handleAuthentication()
+  //handleAuthentication()
 
   return <p>Loading...</p>
 }
