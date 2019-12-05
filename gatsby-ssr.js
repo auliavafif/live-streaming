@@ -5,12 +5,3 @@
  */
 
 // You can delete this file if you're not using it
-
-import React from "react";
-export function onRenderBody(
-  { setHeadComponents }
-) {
- setHeadComponents([
-    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>,
-  ])
-}

@@ -1,5 +1,5 @@
 import React from "react"
-import { OTSession, OTStreams, preloadScript } from 'opentok-react'
+import { OTSession, OTStreams, preloadScript } from 'opentok-react';
 import Publisher from '../components/Publisher';
 import Subscriber from '../components/Subscriber';
 import axios from 'axios';
@@ -192,5 +192,5 @@ class Room extends React.Component {
     }
 }
 
-export default Room;
+export default preloadScript(Room);
 

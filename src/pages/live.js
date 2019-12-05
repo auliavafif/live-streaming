@@ -1,9 +1,11 @@
 import React from "react"
 import { Router } from "@reach/router"
 import { login, logout, isAuthenticated, getProfile, getOpentokToken } from "../utils/auth"
-import Room from '../components/Room'
 import '../styles/layout.scss'
 
+if (typeof window !== `undefined`) {
+    const Room = requuire('../components/Room');
+}
 
 class Live extends React.Component{
     constructor(props){
@@ -11,13 +13,34 @@ class Live extends React.Component{
         this.state={}
     }
 
+    componentDidMount(){
+        if (typeof window === 'undefined') {
+            return;
+        }
+        this.setState({isClient:true})
+
+    }
+
+    renderRoom = () => {
+        if(this.state.isClient){
+        const user = getProfile()
+
+        return(
+            <Router>
+            <Room path="/live" apiKey={process.env.GATSBY_OPENTOK_KEY} sessionId={process.env.GATSBY_OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
+                logout()
+                e.preventDefault()
+            }}/>
+             </Router>);
+        }
+    }
+
+
     render(){
         if (!isAuthenticated()) {
             login()
             return <p>Redirecting to login...</p>
         }
-
-        const user = getProfile()
 
 
         return (
@@ -34,12 +57,8 @@ class Live extends React.Component{
                         Log Out
                 </a>
                 </nav> */}
-                <Router>
-                    <Room path="/live" apiKey={process.env.GATSBY_OPENTOK_KEY} sessionId={process.env.GATSBY_OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
-                            logout()
-                            e.preventDefault()
-                        }}/>
-                </Router>
+
+                    {this.renderRoom()}
             </>
         )
     }
