@@ -15,7 +15,9 @@ class Live extends React.Component{
         if (typeof window === 'undefined') {
             return;
         }
-        this.setState({isClient:true})
+        else{
+            this.setState({isClient:true})
+        }
 
     }
 
@@ -25,10 +27,10 @@ class Live extends React.Component{
 
         return(
             <Router>
-            <Room path="/live" apiKey={process.env.GATSBY_OPENTOK_KEY} sessionId={process.env.GATSBY_OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
-                logout()
-                e.preventDefault()
-            }}/>
+                <Room path="/live" apiKey={process.env.GATSBY_OPENTOK_KEY} sessionId={process.env.GATSBY_OPENTOK_SESSION_ID} token={getOpentokToken(user.email)} user={user} logout={e => {
+                    logout()
+                    e.preventDefault()
+                }}/>
              </Router>);
         }
     }
