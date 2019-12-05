@@ -2,10 +2,7 @@ import React from "react"
 import { Router } from "@reach/router"
 import { login, logout, isAuthenticated, getProfile, getOpentokToken } from "../utils/auth"
 import '../styles/layout.scss'
-
-if (typeof window !== `undefined`) {
-    const Room = require('../components/Room');
-}
+const Room = typeof window !== `undefined` ? require("../components/Room") : null
 
 class Live extends React.Component{
     constructor(props){
