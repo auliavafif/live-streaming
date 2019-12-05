@@ -4,7 +4,7 @@ import { login, logout, isAuthenticated, getProfile, getOpentokToken } from "../
 import '../styles/layout.scss'
 
 if (typeof window !== `undefined`) {
-    const Room = requuire('../components/Room');
+    const Room = require('../components/Room');
 }
 
 class Live extends React.Component{
