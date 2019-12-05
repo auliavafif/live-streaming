@@ -2,7 +2,8 @@ import React from "react"
 import { Router } from "@reach/router"
 import { login, logout, isAuthenticated, getProfile, getOpentokToken } from "../utils/auth"
 import '../styles/layout.scss'
-const Room = typeof window !== `undefined` ? require("../components/Room") : null
+import Loadable from "@loadable/component"
+const Room = Loadable(() => import("../components/Room"))
 
 class Live extends React.Component{
     constructor(props){

@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Aulia V. Afif <auliavafif@gmail.com>",
   "dependencies": {
+    "@loadable/component": "^5.11.0",
     "@opentok/client": "^2.16.3",
     "@reach/router": "^1.2.1",
     "auth0-js": "^9.11.3",
