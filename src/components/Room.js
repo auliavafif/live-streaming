@@ -13,7 +13,7 @@ class Room extends React.Component {
             text: '',
             publish: false,
             subscribe: false,
-            chats: ['satu']
+            chats: ['']
         };
         this.otSession = React.createRef();
         this.chatContainer = React.createRef()

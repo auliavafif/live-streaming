@@ -43,8 +43,10 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     cb()
     return
   }
+  console.log('2')
 
   if (authResult && authResult.accessToken && authResult.idToken) {
+    console.log('3')
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken
@@ -60,7 +62,7 @@ export const handleAuthentication = () => {
   if (!isBrowser) {
     return;
   }
-
+  console.log('1')
   auth.parseHash(setSession())
 }
 
