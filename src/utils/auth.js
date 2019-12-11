@@ -43,7 +43,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     cb()
     return
   }
-  console.log('2')
+
 
   if (authResult && authResult.accessToken && authResult.idToken) {
     console.log('3')
@@ -62,7 +62,7 @@ export const handleAuthentication = () => {
   if (!isBrowser) {
     return;
   }
-  console.log('1')
+
   auth.parseHash(setSession())
 }
 
