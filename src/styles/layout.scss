@@ -22,6 +22,9 @@ main {
   flex: 1 1 0px;
   height: 100%;
   display: flex;
+  @media (max-width: theme("screens.md")) {
+    flex-direction: column;
+  }
 }
 
 .ot-session > div > div{

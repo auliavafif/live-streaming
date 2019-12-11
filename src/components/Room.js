@@ -13,7 +13,8 @@ class Room extends React.Component {
             text: '',
             publish: false,
             subscribe: false,
-            chats: ['']
+            chats: [],
+            isChatActive: false
         };
         this.otSession = React.createRef();
         this.chatContainer = React.createRef()
@@ -124,14 +125,18 @@ class Room extends React.Component {
         }
     }
 
+    toggleChat = () => {
+        this.setState({isChatActive:!this.state.isChatActive})
+    }
+
 
     render() {
-        const { chats, publish, subscribe, text } = this.state;
+        const { chats, publish, subscribe, text, isChatActive } = this.state;
         const { user } = this.props;
         return (
             <>
             <div className="flex flex-wrap h-screen">
-            <div className="w-20 bg-secondary text-center p-3">
+            <div className="md:w-20 w-3/12 bg-secondary text-center p-3 relative">
                 <img className="w-full inline" src="/img/logo-white.png" />
                 <div className="mt-4 text-xs">
                     {this.state.connected ? <span className="bg-red-600 text-white inline-block px-1 rounded-sm">LIVE</span> : <span className="bg-white text-secondary inline-block px-1 rounded-sm">IDLE</span>}
@@ -141,13 +146,17 @@ class Room extends React.Component {
                         <img src={"/img/icon-call.png"} />
                     </div>
                 </div>
+
+                <div onClick={() => this.toggleChat()} className="md:hidden block mb-4 mt-6 px-2 py-1 text-xs cursor-pointer border-2 hover:text-white hover:border-white text-white border-white border-solid rounded">Chat</div>
+
+                <div onClick={() => this.props.logout()} className="absolute mb-4 bottom-0 px-2 py-1 text-xs cursor-pointer border-2 hover:text-gray-800 hover:border-gray-800 text-gray-600 border-gray-600 border-solid rounded">Logout</div>
             </div>
-            <div className="flex-grow flex flex-warp">
-            <div className="w-9/12 flex flex-col bg-gray-300">
-            <div className="flex px-3 items-center h-12 w-full bg-white shadow-sm border-b border-solid">
+            <div className="w-auto flex-grow w-8/12 flex flex-warp">
+            <div className={`${isChatActive ? 'w-0 hidden' : 'w-full'} md:w-9/12 flex flex-col bg-gray-300`}>
+            {/* <div className="flex px-3 items-center h-12 w-full bg-white shadow-sm border-b border-solid">
                 <span className="font-semibold">Live streaming room</span>
-            </div>
-            <div className="flex flex-wrap flex-grow ot-session">
+            </div> */}
+            <div className="flex flex-wrap flex-grow md:flex-row flex-col ot-session">
             <OTSession
                 apiKey={this.props.apiKey}
                 sessionId={this.props.sessionId}
@@ -163,10 +172,10 @@ class Room extends React.Component {
             </OTSession>
             </div>
                 </div>
-                <div className="w-3/12 flex flex-col h-screen">
-                <div className="flex px-3 items-center h-12 w-full shadow-sm border-b border-solid justify-end">
-        <span className="font-medium">{user.name}</span> <img className="w-8 rounded ml-2" src={user.picture} alt="profile"/><div onClick={() => this.props.logout()}className="ml-3 px-2 py-1 text-sm cursor-pointer border-2 hover:text-gray-800 hover:border-gray-800 text-gray-600 border-gray-600 border-solid rounded">Logout</div>
-                </div>
+                <div className={`${isChatActive ? 'w-full' : 'w-0'} md:w-3/12 flex flex-col h-screen`}>
+                {/* <div className="flex px-3 items-center h-12 w-full shadow-sm border-b border-solid justify-end"> */}
+        {/* <span className="font-medium">{user.name}</span> <img className="w-8 rounded ml-2" src={user.picture} alt="profile"/><div onClick={() => this.props.logout()} className="ml-3 px-2 py-1 text-sm cursor-pointer border-2 hover:text-gray-800 hover:border-gray-800 text-gray-600 border-gray-600 border-solid rounded">Logout</div> */}
+                {/* </div> */}
                 <div ref={this.chatContainer} className="border-l border-solid relative p-4 h-1 flex-grow overflow-scroll ">
                 {chats.map((item, index) => {
                     return (
