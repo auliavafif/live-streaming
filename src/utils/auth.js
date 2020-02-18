@@ -4,6 +4,7 @@ import { navigateTo } from 'gatsby-link'
 const AUTH0_DOMAIN = process.env.GATSBY_AUTH0_DOMAIN
 const AUTH0_CLIENT_ID = process.env.GATSBY_AUTH0_CLIENTID
 const AUTH0_URL_CALLBACK = process.env.GATSBY_AUTH0_URL+'/callback'
+const isBrowser = typeof window !== "undefined"
 
 class Auth {
   accessToken
@@ -11,14 +12,14 @@ class Auth {
   expiresAt
   userProfile
 
-  auth0 = new auth0.WebAuth({
+  auth0 = isBrowser ? new auth0.WebAuth({
     domain: AUTH0_DOMAIN,
     clientID: AUTH0_CLIENT_ID,
     redirectUri: AUTH0_URL_CALLBACK,
     audience: `https://${AUTH0_DOMAIN}/api/v2/`,
     responseType: 'token id_token',
     scope: 'openid profile email',
-  })
+  }) : {}
 
   constructor() {
     this.login = this.login.bind(this)
@@ -30,10 +31,18 @@ class Auth {
   }
 
   login() {
+    if (!isBrowser) {
+      return;
+    }
+
     this.auth0.authorize()
   }
 
   handleAuthentication() {
+    if (!isBrowser) {
+          return;
+        }
+
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
