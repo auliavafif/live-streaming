@@ -1,5 +1,5 @@
 import auth0 from 'auth0-js'
-import { navigateTo } from 'gatsby-link'
+import { navigate } from 'gatsby'
 
 const AUTH0_DOMAIN = process.env.GATSBY_AUTH0_DOMAIN
 const AUTH0_CLIENT_ID = process.env.GATSBY_AUTH0_CLIENTID
@@ -47,7 +47,7 @@ class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
       } else if (err) {
-        navigateTo('/')
+        navigate('/')
         console.log(err)
         alert(`Error: ${err.error}. Check the console for further details.`)
       }
@@ -77,7 +77,7 @@ class Auth {
         this.userProfile = profile
       }
       // navigateTo to the home route
-      navigateTo('/')
+      navigate('/live')
     })
   }
 
@@ -92,10 +92,16 @@ class Auth {
     localStorage.removeItem('isLoggedIn')
 
     // navigateTo to the home route
-    navigateTo('/')
+    navigate('/')
   }
 
   isAuthenticated() {
+    if (!isBrowser) {
+      return;
+    }
+    // if(localStorage.getItem("isLoggedIn") === "true"){
+    //   return true
+    // }
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = this.expiresAt
