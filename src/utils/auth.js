@@ -4,6 +4,8 @@ import { navigate } from 'gatsby'
 const AUTH0_DOMAIN = process.env.GATSBY_AUTH0_DOMAIN
 const AUTH0_CLIENT_ID = process.env.GATSBY_AUTH0_CLIENTID
 const AUTH0_URL_CALLBACK = process.env.GATSBY_AUTH0_URL+'/callback'
+const OPENTOK_TOKEN_FIRST = process.env.GATSBY_OPENTOK_TOKEN_FIRST
+const OPENTOK_TOKEN_SECOND = process.env.GATSBY_OPENTOK_TOKEN_SECOND
 const isBrowser = typeof window !== "undefined"
 
 class Auth {
@@ -124,9 +126,9 @@ export default auth
 
 export const getOpentokToken = email => {
     if(email=='auliavafif@gmail.com'){
-        return 'T1==cGFydG5lcl9pZD00NjQ3MDQzMiZzaWc9YzY3MGQ4ODQ5MDZkZDIwMGY0OThiZjhmMTBjNGRlNGExN2M0ZDc5OTpzZXNzaW9uX2lkPTFfTVg0ME5qUTNNRFF6TW41LU1UVTNOVEkyTVRRd01UWTVOSDUyU2pKaFNYSjViWEJvVW5BMVQycHRaR050ZVdzd1YyUi1mZyZjcmVhdGVfdGltZT0xNTc1MjYxNzEwJm5vbmNlPTAuNzI4NjYyNzI4NTYwOTg5JnJvbGU9cHVibGlzaGVyJmV4cGlyZV90aW1lPTE1Nzc4NTM3MDkmY29ubmVjdGlvbl9kYXRhPSU3QmVtYWlsJTNBJ2F1bGlhdmFmaWYlNDBnbWFpbC5jb20nJTdEJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9'
+        return OPENTOK_TOKEN_FIRST
     }
     else{
-        return 'T1==cGFydG5lcl9pZD00NjQ3MDQzMiZzaWc9YmViNDdkMzg4NzU1NzU2YTNkNmY1ZTI2MTJiYTQzOTFiZjY0N2ExZTpzZXNzaW9uX2lkPTFfTVg0ME5qUTNNRFF6TW41LU1UVTNOVEkyTVRRd01UWTVOSDUyU2pKaFNYSjViWEJvVW5BMVQycHRaR050ZVdzd1YyUi1mZyZjcmVhdGVfdGltZT0xNTc1MjYxOTQyJm5vbmNlPTAuNzQ1OTYzMjA2NDQ2MzA4MiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNTc3ODUzOTQxJmNvbm5lY3Rpb25fZGF0YT0lN0JlbWFpbCUzQSd0ZXN0dXNlcjIxMjIwMTklNDBnbWFpbC5jb20nJTdEJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9'
+        return OPENTOK_TOKEN_SECOND
     }
 }
