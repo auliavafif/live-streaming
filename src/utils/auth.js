@@ -1,86 +1,111 @@
-import auth0 from "auth0-js"
-import { navigate } from "gatsby"
+import auth0 from 'auth0-js'
+import { navigateTo } from 'gatsby-link'
 
-const isBrowser = typeof window !== "undefined"
+const AUTH0_DOMAIN = process.env.GATSBY_AUTH0_DOMAIN
+const AUTH0_CLIENT_ID = process.env.GATSBY_AUTH0_CLIENTID
+const AUTH0_URL_CALLBACK = process.env.GATSBY_AUTH0_URL+'/callback'
 
-const auth = isBrowser
-    ? new auth0.WebAuth({
-        domain: process.env.GATSBY_AUTH0_DOMAIN,
-        clientID: process.env.GATSBY_AUTH0_CLIENTID,
-        redirectUri: process.env.GATSBY_AUTH0_URL+'/callback',
-        responseType: "token id_token",
-        scope: "openid profile email",
+class Auth {
+  accessToken
+  idToken
+  expiresAt
+  userProfile
+
+  auth0 = new auth0.WebAuth({
+    domain: AUTH0_DOMAIN,
+    clientID: AUTH0_CLIENT_ID,
+    redirectUri: AUTH0_URL_CALLBACK,
+    audience: `https://${AUTH0_DOMAIN}/api/v2/`,
+    responseType: 'token id_token',
+    scope: 'openid profile email',
+  })
+
+  constructor() {
+    this.login = this.login.bind(this)
+    this.logout = this.logout.bind(this)
+    this.handleAuthentication = this.handleAuthentication.bind(this)
+    this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.getAccessToken = this.getAccessToken.bind(this)
+    this.getIdToken = this.getIdToken.bind(this)
+  }
+
+  login() {
+    this.auth0.authorize()
+  }
+
+  handleAuthentication() {
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult)
+      } else if (err) {
+        navigateTo('/')
+        console.log(err)
+        alert(`Error: ${err.error}. Check the console for further details.`)
+      }
     })
-    : {}
-
-const tokens = {
-    accessToken: false,
-    idToken: false,
-    expiresAt: false,
-}
-
-let user = {}
-
-export const isAuthenticated = () => {
-  if (!isBrowser) {
-    return;
   }
 
-  return localStorage.getItem("isLoggedIn") === "true"
-}
-
-export const login = () => {
-  if (!isBrowser) {
-    return
+  getAccessToken() {
+    return this.accessToken
   }
 
-  auth.authorize()
-}
-
-const setSession = (cb = () => {}) => (err, authResult) => {
-  if (err) {
-    navigate("/")
-    cb()
-    return
+  getIdToken() {
+    return this.idToken
   }
 
+  setSession(authResult) {
+    // Set isLoggedIn flag in localStorage
+    localStorage.setItem('isLoggedIn', 'true')
 
-  if (authResult && authResult.accessToken && authResult.idToken) {
-    console.log('3')
+    // Set the time that the access token will expire at
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
-    tokens.accessToken = authResult.accessToken
-    tokens.idToken = authResult.idToken
-    tokens.expiresAt = expiresAt
-    user = authResult.idTokenPayload
-    localStorage.setItem("isLoggedIn", true)
-    navigate("/live")
-    cb()
+    this.accessToken = authResult.accessToken
+    this.idToken = authResult.idToken
+    this.expiresAt = expiresAt
+
+    this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile
+      }
+      // navigateTo to the home route
+      navigateTo('/')
+    })
+  }
+
+  logout() {
+    // Remove tokens and expiry time
+    this.accessToken = null
+    this.idToken = null
+    this.expiresAt = 0
+    this.userProfile = null
+
+    // Remove isLoggedIn flag from localStorage
+    localStorage.removeItem('isLoggedIn')
+
+    // navigateTo to the home route
+    navigateTo('/')
+  }
+
+  isAuthenticated() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = this.expiresAt
+    return new Date().getTime() < expiresAt
+  }
+
+  getUser() {
+    return this.userProfile
+  }
+
+  getUserName() {
+    if (this.getUser()) {
+      return this.getUser().name
+    }
   }
 }
 
-export const handleAuthentication = () => {
-  if (!isBrowser) {
-    return;
-  }
-
-  auth.parseHash(setSession())
-}
-
-export const getProfile = () => {
-  return user
-}
-
-export const silentAuth = callback => {
-    if (!isAuthenticated()) return callback()
-    auth.checkSession({}, setSession(callback))
-  }
-
-  export const logout = () => {
-    localStorage.setItem("isLoggedIn", false)
-    auth.logout({
-        returnTo: process.env.GATSBY_AUTH0_URL
-        })
-  }
+const auth = new Auth()
+export default auth
 
 export const getOpentokToken = email => {
     if(email=='auliavafif@gmail.com'){
