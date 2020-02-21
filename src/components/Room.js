@@ -112,9 +112,9 @@ class Room extends React.Component {
                             + error.name
                             + "): " + error.message);
                     } else {
+                        self.setState({text:''})
                         axios.post('/.netlify/functions/chatCreate', { ...data })
                             .then(res => {
-                                self.setState({text:''})
                             })
                             .catch(error => {
                                 console.log(error);
